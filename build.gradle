@@ -1,9 +1,9 @@
-// Top-level build file where you can add configuration options common to all sub-projects/modules.
+    // Top-level build file where you can add configuration options common to all sub-projects/modules.
 //BitBucket
 // Here is your app password for ScratchGetPublishLibraryPassword1.
 // You will not be able to view this password again once you close this window,
 // so be sure to record it.
-// 4K2LnzNCnq3ssxnnZcJr
+//
 
 buildscript {
     ext.kotlin_version = "1.5.10"
@@ -23,27 +23,9 @@ buildscript {
 plugins {
     id "maven-publish"
 }
-
-
-allprojects {
-// Good overall article https://proandroiddev.com/android-maven-publish-for-your-libraries-b76ad47677df
-    // This is where the published files will be written from publications{} below.
-    // .m2\repository\com\library\tappyplay\pocketknife
     group = "com.library.tappyplay.pocketknife"
-    // .m2\repository\com\library\tappyplay\pocketknife\PocketKnifeModule1-Library_WithPermissions\1.0.1
-    version = "1.0.0"
-    repositories {
-        google()
-        mavenCentral()
-        jcenter() // Warning: this repository is going to shut down soon
-    }
-    task hello {
-        // debug task
-        doLast { task ->
-            println "I'm $task.project.name (this is the task.project.name)"
-        }
-    }
-}
+
+
 println "Message: The buildDir $buildDir "
 def home_variable = "~/.m2/repository/"
 println "Message: home_variable = $home_variable"
@@ -60,30 +42,14 @@ https://stackoverflow.com/questions/67253670/could-not-get-unknown-property-rele
 
 // https://dev.to/mohitrajput987/publish-android-library-using-github-packages-4lnf
 
-subprojects {// gradlew publishToMavenLocal
-    apply plugin: "maven-publish"
-    afterEvaluate {
-        if (!plugins.hasPlugin("android")) {
-            publishing {
-                publications {
-                    maven(MavenPublication) {
-                        artifactId = "$rootProject.name-$project.name"
-                        if (plugins.hasPlugin("java")) {
-                            println "Message: from components.java"
-                            from components.java
-                        } else if (plugins.hasPlugin("android-library")) {
-                            println "Message: from components.android"
-//                            from components.android
 
-                        }
-
-                    }
-                }
-            }
+    allprojects {
+        repositories {
+            google()
+            mavenCentral()
+            jcenter() // Warning: this repository is going to shut down soon
         }
     }
-}
-
 
 task clean(type: Delete) {
     delete rootProject.buildDir

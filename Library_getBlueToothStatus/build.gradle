@@ -1,14 +1,35 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 //apply plugin: 'kotlin-android-extensions'
+// To build:
+//gradlew Library_getBluetoothStatus:assemble
 
+def getVersionName = { ->
+    return "0.0.1"
+}
+
+def getArtifactId = { ->
+    return "Library_getBlueThoothStatus-sdk"
+}
+
+def getGroupId = { ->
+    return "com.library.tappyplay.pocketknife.getBlueThoothStatus"
+}
+
+def getGitHubUrl = { ->
+    return "https://maven.pkg.github.com/tompearson/Library_getBlueThoothStatus"
+}
+
+//apply plugin: 'java-library'
+//apply plugin: 'kotlin'
+apply plugin: 'maven-publish'
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.3"
+    compileSdkVersion 30
+    buildToolsVersion "30.0.3"
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
@@ -24,13 +45,43 @@ android {
     }
 }
 
+publishing {
+    publications {
+        bar(MavenPublication) {
+            groupId getGroupId()
+            artifactId getArtifactId()
+            version getVersionName()
+            // Place the path of your artifact here
+            artifact("$buildDir/libs/${getArtifactId()}.jar")
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+
+            url = uri(getGitHubUrl())
+            credentials {
+//                username = System.getenv("GITHUB_USER_NAME")
+                username = "tompearson"
+//                password = System.getenv("GITHUB_TOKEN")
+                password = "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"
+            }
+        }
+    }
+}
+buildscript {
+    ext.kotlin_version = "1.5.10"
+    repositories {
+        google()
+        mavenCentral()
+    }}
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-    implementation 'androidx.core:core-ktx:1.3.1'
-    implementation 'androidx.appcompat:appcompat:1.1.0'
-    testImplementation 'junit:junit:4.13'
-    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+    implementation 'androidx.core:core-ktx:1.5.0'
+    implementation 'androidx.appcompat:appcompat:1.3.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
 }

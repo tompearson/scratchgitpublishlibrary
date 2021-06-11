@@ -1,4 +1,4 @@
 rootProject.name = "mylibrary"
-include ':app'
+//include ':app'
 include ':Library_getBlueToothStatus'
-include ':Library_isItRooted'
+//include ':Library_isItRooted'
