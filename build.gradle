@@ -1,4 +1,10 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+//BitBucket
+// Here is your app password for ScratchGetPublishLibraryPassword1.
+// You will not be able to view this password again once you close this window,
+// so be sure to record it.
+// 4K2LnzNCnq3ssxnnZcJr
+
 buildscript {
     ext.kotlin_version = "1.5.10"
     repositories {
