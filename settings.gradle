@@ -1,4 +1,4 @@
-rootProject.name = "mylibrary"
+rootProject.name = "ScratchLibrary"
 //include ':app'
 include ':Library_getBlueToothStatus'
 //include ':Library_isItRooted'

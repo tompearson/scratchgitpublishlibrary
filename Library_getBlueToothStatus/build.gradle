@@ -9,15 +9,15 @@ def getVersionName = { ->
 }
 
 def getArtifactId = { ->
-    return "Library_getBlueThoothStatus-sdk"
+    return "TappyPlay-Library"
 }
 
 def getGroupId = { ->
-    return "com.library.tappyplay.pocketknife.getBlueThoothStatus"
+    return "com.library.tappyplay"
 }
 
 def getGitHubUrl = { ->
-    return "https://maven.pkg.github.com/tompearson/Library_getBlueThoothStatus"
+    return "https://maven.pkg.github.com/tompearson/PocketKnife"
 }
 
 //apply plugin: 'java-library'
@@ -35,6 +35,19 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
+
+        Properties properties = new Properties()
+        if (rootProject.file("local.properties").exists()) {
+            println "Message: local.properties exists"
+            properties.load(rootProject.file("local.properties").newDataInputStream())
+        }
+//        resValue "string", "username", properties.getProperty("gpr.user", "")
+//        resValue "string", "password", properties.getProperty("gpr.key", "")
+
+        def username = properties.getProperty("gpr.user")
+        def password = properties.getProperty("gpr.key")
+        println "Message: properties username = $username"
+        println "Message: properties password = $password"
     }
 
     buildTypes {
@@ -44,15 +57,32 @@ android {
         }
     }
 }
+//println "Message: groupId = " + getGroupId()
+//println "Message: artifactId = " + getArtifactId()
+//println "Message: version = " + getVersionName()
+println "Message: buildDir = $buildDir"
+println "Message: project = $project"
 
+//def username = System.getenv("GITHUB_USER_NAME")
+//def password = System.getenv("GITHUB_TOKEN")
+//println "Message: username = " + System.getenv("GITHUB_USER_NAME")
+
+
+//https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry
+//subprojects {
 publishing {
     publications {
         bar(MavenPublication) {
             groupId getGroupId()
+            println "Message: groupId = $getGroupId"
             artifactId getArtifactId()
+            println "Message: artifactId = $artifactId"
             version getVersionName()
+            println "Message: version = $version"
+            println "Message: artifact = $buildDir" + "\\outputs\\$artifactId" + ".jar"
+
             // Place the path of your artifact here
-            artifact("$buildDir/libs/${getArtifactId()}.jar")
+            artifact("$buildDir/outputs/${getArtifactId()}.jar")
         }
     }
     repositories {
@@ -62,19 +92,33 @@ publishing {
             url = uri(getGitHubUrl())
             credentials {
 //                username = System.getenv("GITHUB_USER_NAME")
-                username = "tompearson"
 //                password = System.getenv("GITHUB_TOKEN")
-                password = "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"
+
+//                username = project.findProperty("gpr.user")
+//                password = project.findProperty("gpr.key")
+
+//                username = project.findProperty("gpr.user") ?: System.getenv("GITHUB_USER_NAME")
+//                password = project.findProperty("gpr.key") ?: System.getenv("GITHUB_TOKEN")
+
+//                username = findProperty("gpr.user")
+//                password = findProperty("gpr.key")
+//
+                println "Message: username = $username"
+                println "Message: password = $password"
+
+
             }
         }
     }
 }
+//}
 buildscript {
     ext.kotlin_version = "1.5.10"
     repositories {
         google()
         mavenCentral()
-    }}
+    }
+}
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
