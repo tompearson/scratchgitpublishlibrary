@@ -1,12 +1,15 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: CI for scratchgitpublishlibrary
 
 # Controls when the action will run. 
 on:
   # Triggers the workflow on push or pull request events but only for the dev branch
   push:
-    branches: [ dev ]
+    branches: 
+      - 'dev'
+      - '!master'
+      - '!release*'
   pull_request:
     branches: [ dev ]
 
